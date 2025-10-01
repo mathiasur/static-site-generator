@@ -8,9 +8,10 @@ import re
 
 def main():
 
-    text = "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)"
-    print(extract_markdown_links(text))
-# [("to boot dev", "https://www.boot.dev"), ("to youtube", "https://www.youtube.com/@bootdotdev")]
+    node = TextNode("asdasdadasdsa", TextType.IMAGE, "image.jpg")
+    node2 = text_node_to_html_node(node)
+    
+    print(node2.to_html())
 
 
 if __name__ == "__main__":

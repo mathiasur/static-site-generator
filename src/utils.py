@@ -8,7 +8,7 @@ def text_node_to_html_node(text_node: TextNode):
 
     if text_node.text_type == TextType.IMAGE:
         return LeafNode(
-            "img", "", {"src": f"{text_node.url}", "alt": f"{text_node.text}"}
+            "img", " ", {"src": f"{text_node.url}", "alt": f"{text_node.text}"}
         )
 
     return LeafNode(text_node.text_type.value, text_node.text)
@@ -62,5 +62,17 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
 def extract_markdown_images(text):
     return re.findall(r"!\[([^\[\]]*)\]\(([^\(\)]*)\)", text)
 
+
 def extract_markdown_links(text):
     return re.findall(r"(?<!!)\[([^\[\]]*)\]\(([^\(\)]*)\)", text)
+
+
+def split_node_image(old_nodes):
+    new_nodes = []
+    
+    for node in old_nodes:
+        if node.text_type == TextType.IMAGE:
+            new_nodes.append(node)
+        else:
+            image = extract_markdown_images(node.text)
+            
