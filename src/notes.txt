@@ -1,0 +1,15 @@
+nodos_nuevos = []
+
+recorrer el texto letra por letra:
+    si el caracter == delimitador y la pila == 0:
+        agregar 1 a la pila
+        crear nodo(texto, tipo=text)
+        agregar nodo a nodos_nuevos
+    si la pila == 0:
+        texto_crudo += letra
+    si la pila == 1:
+        texto += caracter
+    si la pila == 1 y el caracter == delimitador:
+        quitar 1 de la pila
+        crear nodo(texto, tipo)
+        agregar nodo a nodos nuevos

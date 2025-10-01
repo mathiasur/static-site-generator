@@ -13,44 +13,43 @@ def text_node_to_html_node(text_node: TextNode):
     return LeafNode(text_node.text_type.value, text_node.text)
 
 
-# node = TextNode("This is text with a `code block` word", TextType.TEXT)
-# new_nodes = split_nodes_delimiter([node], "`", TextType.CODE)
+def split_node(node, delimiter, text_type):
+    nodes = []
+    raw = ""
+    special = ""
 
-# [
-#     TextNode("This is text with a ", TextType.TEXT),
-#     TextNode("code block", TextType.CODE),
-#     TextNode(" word", TextType.TEXT),
-# ]
+    stack = []
+    for char in node.text:
+        if len(stack) == 0 and char == delimiter:
+            stack.append(1)
+            if raw != "":
+                nodes.append(TextNode(raw, TextType.TEXT))
+                raw = ""
+            continue
+        if len(stack) == 1 and char == delimiter:
+            stack.pop()
+            if special != "":
+                nodes.append(TextNode(special, text_type))
+                special = ""
+            continue
+        if len(stack) == 0:
+            raw += char
+        if len(stack) == 1:
+            special += char
+
+    if raw != "":
+        nodes.append(TextNode(raw, TextType.TEXT))
+
+    if len(stack) == 1:
+        nodes[-1].text_type == TextType.TEXT
+
+    return nodes
 
 
-# seguir con esto
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
     new_nodes = []
-    node_values = []
-    delimiter_positions = []
 
     for node in old_nodes:
-        node_values.append(node.text)
+        new_nodes += split_node(node, delimiter, text_type)
 
-    index = 0
-    for text in node_values:
-        tokens = text.split(delimiter)
-        for token in tokens[:-1]:
-            index += len(token)
-            delimiter_positions.append(index)
-            index += len(delimiter)
-            
-        if len(delimiter_positions) > 1:
-            if len(delimiter_positions) % 2 != 0:
-                delimiter_positions = delimiter_positions[:-1]
-        else:
-            new_nodes.append(TextNode(text, TextType.TEXT))
-            continue
-                
-        # continuar aca
-            
-
-    return delimiter_positions
-
-
-# este es un `pedazo de codigo` [11,28]
+    return new_nodes

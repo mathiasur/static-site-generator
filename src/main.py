@@ -7,13 +7,16 @@ from utils import *
 
 def main():
     
-    node = TextNode("This is text with a `code block` word", TextType.TEXT)
+    node = TextNode("`This is text` `with` a code block word", TextType.TEXT)
+    node2 = TextNode("`This is another text` with a code block word", TextType.TEXT)
     
-    positions = split_nodes_delimiter([node], "`", TextType.CODE)
+    positions = split_nodes_delimiter([node, node2], "`", TextType.CODE)
     
-    a = [11,28]
-    a.pop(0)
-    a.pop(0)
-    print(a)
+    for position in positions:
+        print(position)
+    
 
-main()
+
+
+if __name__ == "__main__":
+    main()
