@@ -71,8 +71,11 @@ def split_node_image(old_nodes):
     new_nodes = []
     
     for node in old_nodes:
-        if node.text_type == TextType.IMAGE:
+        if node.text_type != TextType.TEXT:
             new_nodes.append(node)
         else:
             image = extract_markdown_images(node.text)
-            
+            if len(image) == 0:
+                new_nodes.append(node)
+            else:
+                pass # seguir aca
